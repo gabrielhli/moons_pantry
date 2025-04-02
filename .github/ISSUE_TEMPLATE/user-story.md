@@ -1,14 +1,5 @@
 ---
 name: User Story
-about: User Stories track individual features
-title: ''
-labels: ''
-assignees: ''
-
----
-
----
-name: User Story
 about: This template is for creating user stories
 title: ''
 labels: ''
