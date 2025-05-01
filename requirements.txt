@@ -5,3 +5,6 @@ pytest-cov==6.1.1
 #Code quality
 pylint==3.3.6
 flake8==7.2.0
+
+#Pantry dependencies
+pymongo==4.12.1

@@ -7,7 +7,7 @@ all: help
 
 venv: ## Create a Python virtual environment
 	$(info Creating Python 3 virtual environment...)
-	python3 -m venv ~/venv
+	python3 -m venv venv
 
 install: ## Install Python dependencies
 	$(info Installing dependencies...)
@@ -16,8 +16,8 @@ install: ## Install Python dependencies
 
 lint: ## Run the linter
 	$(info Running linting...)
-	flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-	flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
+	flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude venv
+	flake8 . --count --max-complexity=10 --max-line-length=127 --statistics --exclude venv
 
 mongo: ## Run Mongodb in Docker
 	$(info Running Mongodb...)
