@@ -43,12 +43,13 @@ class TestPantry:
         # Test teardown
         self.logger.debug("test teardown")
 
-    def test_sample(self):
+    def test_str_function(self):
+        """ Tests the __str__ function of Item"""
         item = ItemFactory()
         self.logger.debug(item.name)
         self.logger.debug(item.quantity)
         self.logger.debug(item.expiration_dt)
-        assert 5 == 5
+        assert f"{item.name}: {item.quantity} - {item.expiration_dt}" == item.__str__()
 
     def test_sample2(self):
         assert 10 != 5

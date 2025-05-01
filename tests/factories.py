@@ -6,6 +6,7 @@ import factory
 from factory.fuzzy import FuzzyDate, FuzzyInteger
 from service.pantry import Item
 
+
 class ItemFactory(factory.Factory):
     """ Creates fake Items"""
     class Meta:
@@ -14,4 +15,4 @@ class ItemFactory(factory.Factory):
 
     name = factory.Faker("name")
     quantity = FuzzyInteger(0, 100)
-    expiration_dt = FuzzyDate(date(2025,1,1))
+    expiration_dt = FuzzyDate(date(2025, 1, 1))

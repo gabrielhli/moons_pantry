@@ -30,7 +30,7 @@ tests: ## Run the unit tests
 	$(info Running pytest)
 	pytest -v --cov
 
-.PHONY: testlogs
-testlogs: ## Run the unit tests with logging enabled
+.PHONY: pytestlogs
+pytestlogs: ## Run the unit tests with logging enabled
 	$(info Running pytest with logs)
 	pytest --log-cli-level debug

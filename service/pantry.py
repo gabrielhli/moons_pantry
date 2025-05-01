@@ -17,8 +17,8 @@ class Item:
 
     _id: ObjectId
     client_conn: pymongo.MongoClient  # client connection using pymongo
-    db_conn: pymongo.synchronous.database.Database # database connection using pymongo
-    item_conn: pymongo.synchronous.collection.Collection # collection connection using pymongo
+    db_conn: pymongo.synchronous.database.Database  # database connection using pymongo
+    item_conn: pymongo.synchronous.collection.Collection  # collection connection using pymongo
 
     def __init__(self, name: str, quantity: int, expiration_dt: datetime):
         """Constructor for item class"""
@@ -28,20 +28,17 @@ class Item:
 
     def __str__(self):
         """str override"""
-        print(f"{self._id}: {self.name} - {self.quantity} (expires @ {self.expiration_dt})")
+        return f"{self.name}: {self.quantity} - {self.expiration_dt}"
 
     @classmethod
-    def db_init(cls, db_name = 'Pantry'):
+    def db_init(cls, db_name='Pantry'):
         """ Initializes connection to the Mongodb"""
         config = configparser.ConfigParser()
         config.read('config.ini')
         uri = config.get('database', 'uri')
 
-        try:
-            cls.client_conn = pymongo.MongoClient(uri)
-            cls.db_conn = cls.client_conn[db_name]
-        except ConnectionError:
-            print("Unable to connect to MongoDB")
+        cls.client_conn = pymongo.MongoClient(uri)
+        cls.db_conn = cls.client_conn[db_name]
 
     @classmethod
     def db_close(cls):
