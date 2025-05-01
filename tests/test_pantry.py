@@ -1,12 +1,54 @@
-# Imports
+"""
+Test file for testing pantry.py
+"""
 import pytest
+import logging
 from service import pantry
+from tests.factories import ItemFactory
 
 
-@pytest.fixture(scope="module")
-def init_db():
-    pantry.Item.db_init()
+class TestPantry:
+    """ Main Test Class """
 
+    # Setting up logger
+    logging.basicConfig(filename="TestPantry.log",
+                        format='%(asctime)s %(message)s',
+                        filemode='w')
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
 
-def test_sample():
-    assert 5 == 5
+    @pytest.fixture(autouse=True, scope="class")
+    def setup_method(self):
+        """ Class fixture for setup and teardown."""
+
+        # Class Setup
+        pantry.Item.db_init("test-db")
+        print("setup")
+        self.logger.debug("setup")
+        yield
+
+        # Class Teardown
+        pantry.Item.db_close()
+        print("teardown")
+        self.logger.debug("teardown")
+
+    @pytest.fixture(autouse=True, scope="function")
+    def test_method(self):
+        """ function fixture for setup and teardown before each test."""
+
+        # Test setup
+        self.logger.debug("test setup")
+        yield
+
+        # Test teardown
+        self.logger.debug("test teardown")
+
+    def test_sample(self):
+        item = ItemFactory()
+        self.logger.debug(item.name)
+        self.logger.debug(item.quantity)
+        self.logger.debug(item.expiration_dt)
+        assert 5 == 5
+
+    def test_sample2(self):
+        assert 10 != 5
