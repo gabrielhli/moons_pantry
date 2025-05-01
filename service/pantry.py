@@ -9,11 +9,11 @@ import pymongo.synchronous.database
 
 
 class Item:
-    # Class representation of a pantry item. Class properties include:
-    #   - _id: MongoDB ID
-    #   - name: Name of item
-    #   - quantity: Quantity of item
-    #   - expiration_dt: Expiration Date of item
+    """ Class representation of a pantry item. Class properties include:
+       - _id: MongoDB ID
+       - name: Name of item
+       - quantity: Quantity of item
+       - expiration_dt: Expiration Date of item """
 
     _id: ObjectId
     client_conn: pymongo.MongoClient  # client connection using pymongo
@@ -21,13 +21,13 @@ class Item:
     item_conn: pymongo.synchronous.collection.Collection  # collection connection using pymongo
 
     def __init__(self, name: str, quantity: int, expiration_dt: datetime):
-        """Constructor for item class"""
+        """ Constructor for item class"""
         self.name = name
         self.quantity = quantity
         self.expiration_dt = expiration_dt
 
     def __str__(self):
-        """str override"""
+        """ str override"""
         return f"{self.name}: {self.quantity} - {self.expiration_dt}"
 
     @classmethod
