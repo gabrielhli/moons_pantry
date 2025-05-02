@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubunto-latest
+    runs-on: ubuntu-latest
     container: python:3.13-slim
 
     services:
