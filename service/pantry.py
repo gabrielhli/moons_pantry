@@ -1,11 +1,15 @@
 # Imports
 import pymongo
-import configparser
+# import configparser
 import datetime
+import os
 from bson import ObjectId
 import pymongo.synchronous
 import pymongo.synchronous.collection
 import pymongo.synchronous.database
+
+
+DATABASE_URI = os.getenv("DATABASE_URI", "mongodb://localhost:27017")
 
 
 class Item:
@@ -33,11 +37,11 @@ class Item:
     @classmethod
     def db_init(cls, db_name='Pantry'):
         """ Initializes connection to the Mongodb"""
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        uri = config.get('database', 'uri')
+        # config = configparser.ConfigParser()
+        # config.read('config.ini')
+        # uri = config.get('database', 'uri')
 
-        cls.client_conn = pymongo.MongoClient(uri)
+        cls.client_conn = pymongo.MongoClient(DATABASE_URI)
         cls.db_conn = cls.client_conn[db_name]
 
     @classmethod
