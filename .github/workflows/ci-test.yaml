@@ -1,0 +1,43 @@
+name: CI Test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubunto-latest
+    container: python:3.13-slim
+
+    services:
+      mongodb:
+        image: mongo:8.0.8
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip wheel
+          pip install -r requirements
+
+      - name: Lint with flake8
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude venv
+          flake8 . --count --max-complexity=10 --max-line-length=127 --statistics --exclude venv
+
+      - name: Run unit tests with pytest
+        run: pytest -v --cov
+        env:
+          DATABASE_URI: "mongodb://mongodb:27017"
