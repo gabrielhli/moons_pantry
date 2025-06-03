@@ -53,3 +53,14 @@ class TestPantry:
 
     def test_sample2(self):
         assert 10 != 5
+
+    def test_create_item(self):
+        """ Tests the create_item function """
+        origCount = pantry.Item.count()
+        item = ItemFactory()
+        self.logger.debug("Testing create item with the following attributes")
+        self.logger.debug(item.name)
+        self.logger.debug(item.quantity)
+        self.logger.debug(item.expiration_dt)
+        item.createItem()
+        assert origCount + 1 == pantry.Item.count()

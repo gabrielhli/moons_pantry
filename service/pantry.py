@@ -10,6 +10,7 @@ import pymongo.synchronous.database
 
 
 DATABASE_URI = os.getenv("DATABASE_URI", "mongodb://localhost:27017")
+ITEM_COLLECTION = os.getenv("ITEM_COLLECTION", "items")
 
 
 class Item:
@@ -34,6 +35,14 @@ class Item:
         """ str override"""
         return f"{self.name}: {self.quantity} - {self.expiration_dt}"
 
+    def createItem(self):
+        """ Saves Item to Database"""
+        self._id = self.item_conn.insert_one({
+            "name": self.name,
+            "quantity": self.quantity,
+            "expiration_dt": self.expiration_dt.strftime("%m%d%Y")
+        }).inserted_id
+
     @classmethod
     def db_init(cls, db_name='Pantry'):
         """ Initializes connection to the Mongodb"""
@@ -43,8 +52,14 @@ class Item:
 
         cls.client_conn = pymongo.MongoClient(DATABASE_URI)
         cls.db_conn = cls.client_conn[db_name]
+        cls.item_conn = cls.db_conn[ITEM_COLLECTION]
 
     @classmethod
     def db_close(cls):
-        """ Closes connection to Mongodb"""
+        """ Closes connection to Mongodb """
         cls.client_conn.close()
+
+    @classmethod
+    def count(cls):
+        """ Returns the count of items """
+        return cls.item_conn.count_documents({})
