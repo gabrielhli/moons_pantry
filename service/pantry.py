@@ -11,6 +11,8 @@ import pymongo.synchronous.database
 
 DATABASE_URI = os.getenv("DATABASE_URI", "mongodb://localhost:27017")
 ITEM_COLLECTION = os.getenv("ITEM_COLLECTION", "items")
+DB_USER = os.getenv("MONGO_INITDB_ROOT_USERNAME", "")
+DB_PASSWORD = os.getenv("MONGO_INITDB_ROOT_PASSWORD", "")
 
 
 class Item:
@@ -50,7 +52,7 @@ class Item:
         # config.read('config.ini')
         # uri = config.get('database', 'uri')
 
-        cls.client_conn = pymongo.MongoClient(DATABASE_URI)
+        cls.client_conn = pymongo.MongoClient(DATABASE_URI, username=DB_USER, password=DB_PASSWORD)
         cls.db_conn = cls.client_conn[db_name]
         cls.item_conn = cls.db_conn[ITEM_COLLECTION]
 
